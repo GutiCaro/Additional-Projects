@@ -1,8 +1,7 @@
---Cleaning Data to make it more usuable 
-
---*TIP: ALWAYS keep an untouched raw data file, just in case!*
+--Cleaning Dataset containing Nashville Housing Info 
 
  --populate property address data
+ 
 select *
 FROM Nashville
 --WHERE propertyaddress is NULL
@@ -23,7 +22,7 @@ on a.parcelid = b.parcelid
 AND a.[uniqueid] <> b.[uniqueid]
 WHERE a.propertyaddress is NULL;
 
---breaking out address into individual columns (address, city, state).
+--Separate address into individual columns (address, city, state).
 --Raw data has city right after address, seperated by a comma.
 
 SELECT SUBSTRING(propertyaddress, 1, CHARINDEX(',', propertyaddress) -1) as Address
@@ -74,9 +73,9 @@ UPDATE Nashville
 SET ownerState = PARSENAME (REPLACE(OwnerAddress,',', '.'), 1)
 
 
---Change Y and N to Yes and No in "Sold as Vacant" field 
+--Change "Y" and "N" to "Yes" and "No" in soldasvacant Column 
 
-select distinct (soldasvacant) FROM [Nashville ] 
+select distinct (soldasvacant) FROM [Nashville] 
 
 Select soldasvacant,
  CASE WHEN soldasvacant = 'Y' THEN 'Yes'
@@ -97,7 +96,7 @@ FROM Nashville
 GROUP BY soldasvacant 
 Order by 2
 
---Delete Unused Columns (DONT DO TO RAW DATA!)
+--Delete Unused Columns 
 
 Select * 
 FROM Nashville 
